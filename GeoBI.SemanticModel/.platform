@@ -1,0 +1,11 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/gitIntegration/platformProperties/2.0.0/schema.json",
+  "metadata": {
+    "type": "SemanticModel",
+    "displayName": "GeoBI.SemanticModel"
+  },
+  "config": {
+    "version": "2.0",
+    "logicalId": "e54f940a-2007-4228-a400-f6551b92015a"
+  }
+}

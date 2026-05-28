@@ -1,0 +1,32 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.7.0/schema.json",
+  "name": "FrictionCard_100",
+  "position": {
+    "x": 320.0,
+    "y": 10.0,
+    "z": 1.0,
+    "height": 180.0,
+    "width": 240.0,
+    "tabOrder": 3
+  },
+  "visual": {
+    "visualType": "card",
+    "query": {
+      "queryState": {
+        "Values": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": { "SourceRef": { "Entity": "viability_index" } },
+                  "Property": "Fricción Tiempo Media"
+                }
+              },
+              "queryRef": "viability_index.Fricción Tiempo Media"
+            }
+          ]
+        }
+      }
+    }
+  }
+}

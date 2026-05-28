@@ -1,0 +1,88 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.7.0/schema.json",
+  "name": "6e3f0c71a04995e968d2",
+  "position": {
+    "x": 9.9766173031956349,
+    "y": 0,
+    "z": 0,
+    "height": 679.40763834762265,
+    "width": 1203.1800467653934,
+    "tabOrder": 0
+  },
+  "visual": {
+    "visualType": "map",
+    "query": {
+      "queryState": {
+        "X": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "viability_index"
+                    }
+                  },
+                  "Property": "lon"
+                }
+              },
+              "queryRef": "viability_index.lon",
+              "nativeQueryRef": "lon"
+            }
+          ]
+        },
+        "Y": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "viability_index"
+                    }
+                  },
+                  "Property": "lat"
+                }
+              },
+              "queryRef": "viability_index.lat",
+              "nativeQueryRef": "lat"
+            }
+          ]
+        }
+      }
+    },
+    "drillFilterOtherVisuals": true
+  },
+  "filterConfig": {
+    "filters": [
+      {
+        "name": "20c941cbd2a292340db9",
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "viability_index"
+              }
+            },
+            "Property": "lat"
+          }
+        },
+        "type": "Advanced"
+      },
+      {
+        "name": "3da86933f87e90178999",
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "viability_index"
+              }
+            },
+            "Property": "lon"
+          }
+        },
+        "type": "Advanced"
+      }
+    ]
+  }
+}

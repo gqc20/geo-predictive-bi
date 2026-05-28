@@ -1,0 +1,10 @@
+pandas
+pyproj
+google-generativeai
+pinecone-client
+psycopg2-binary
+scikit-learn
+streamlit
+python-dotenv
+requests
+rich

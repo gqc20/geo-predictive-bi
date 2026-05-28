@@ -1,0 +1,32 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.7.0/schema.json",
+  "name": "TypeSlicer_103",
+  "position": {
+    "x": 10.0,
+    "y": 320.0,
+    "z": 1.0,
+    "height": 200.0,
+    "width": 300.0,
+    "tabOrder": 7
+  },
+  "visual": {
+    "visualType": "slicer",
+    "query": {
+      "queryState": {
+        "Values": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": { "SourceRef": { "Entity": "viability_index" } },
+                  "Property": "establishment_type"
+                }
+              },
+              "queryRef": "viability_index.establishment_type"
+            }
+          ]
+        }
+      }
+    }
+  }
+}

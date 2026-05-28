@@ -1,0 +1,32 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.7.0/schema.json",
+  "name": "OccasionSlicer_104",
+  "position": {
+    "x": 10.0,
+    "y": 530.0,
+    "z": 1.0,
+    "height": 160.0,
+    "width": 300.0,
+    "tabOrder": 8
+  },
+  "visual": {
+    "visualType": "slicer",
+    "query": {
+      "queryState": {
+        "Values": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": { "SourceRef": { "Entity": "viability_index" } },
+                  "Property": "occasion_tag"
+                }
+              },
+              "queryRef": "viability_index.occasion_tag"
+            }
+          ]
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,36 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.7.0/schema.json",
+  "name": "ScoreCardGUID_99",
+  "position": {
+    "x": 10.0,
+    "y": 10.0,
+    "z": 1.0,
+    "height": 180.0,
+    "width": 300.0,
+    "tabOrder": 1
+  },
+  "visual": {
+    "visualType": "card",
+    "query": {
+      "queryState": {
+        "Values": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "viability_index"
+                    }
+                  },
+                  "Property": "Score Geo-Predictivo"
+                }
+              },
+              "queryRef": "viability_index.Score Geo-Predictivo"
+            }
+          ]
+        }
+      }
+    }
+  }
+}

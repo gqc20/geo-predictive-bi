@@ -1,0 +1,18 @@
+version: '3.8'
+
+services:
+  postgres:
+    # Upgrade: De PostgreSQL plano a PostGIS (Geoespacial de Alto Rendimiento)
+    image: postgis/postgis:15-3.3-alpine
+    container_name: geo_bi_postgres
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB}
+    ports:
+      - "${POSTGRES_PORT:-5432}:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+
+volumes:
+  pgdata:

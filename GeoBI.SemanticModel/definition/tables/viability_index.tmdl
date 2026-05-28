@@ -1,0 +1,101 @@
+table viability_index
+	lineageTag: 53630f9a-1481-4b13-8902-61da7597147a
+
+	measure 'Score Geo-Predictivo' = AVERAGE(viability_index[viability_index])
+		formatString: 0.0%
+		displayFolder: Inteligencia Oro
+
+	measure 'Alerta Océano Azul' = IF([Score Geo-Predictivo] > 0.8, "🚀 ALTA VIABILIDAD", "⚠️ Saturado")
+		displayFolder: Inteligencia Oro
+
+	measure 'Fricción Tiempo Media' = AVERAGE(viability_index[wait_time_friction])
+		formatString: 0.0
+		displayFolder: KPIs Cognitivos
+
+	measure 'Value for Money Medio' = AVERAGE(viability_index[value_for_money])
+		formatString: 0.0
+		displayFolder: KPIs Cognitivos
+
+	measure 'Gap Dominante' = TOPN(1, VALUES(viability_index[menu_gap]), [Score Geo-Predictivo], DESC)
+		displayFolder: KPIs Cognitivos
+
+	column id
+		dataType: int64
+		lineageTag: b1a1b1a1-1111-2222-3333-444455556666
+		summarizeBy: count
+		sourceColumn: id
+
+	column name
+		dataType: string
+		lineageTag: c1c1c1c1-2222-3333-4444-555566667777
+		summarizeBy: none
+		sourceColumn: name
+
+	column lat
+		dataType: double
+		lineageTag: d1d1d1d1-3333-4444-5555-666677778888
+		summarizeBy: none
+		sourceColumn: lat
+
+	column lon
+		dataType: double
+		lineageTag: e1e1e1e1-4444-5555-6666-777788889999
+		summarizeBy: none
+		sourceColumn: lon
+
+	column viability_index
+		dataType: double
+		lineageTag: f1f1f1f1-4444-5555-6666-777788889999
+		summarizeBy: sum
+		sourceColumn: viability_index
+
+	column sentiment_score
+		dataType: double
+		lineageTag: a1a1a1a1-5555-6666-7777-888899990000
+		summarizeBy: sum
+		sourceColumn: sentiment_score
+
+	column menu_gap
+		dataType: string
+		lineageTag: b2b2b2b2-6666-7777-8888-999900001111
+		summarizeBy: none
+		sourceColumn: menu_gap
+
+	column occasion_tag
+		dataType: string
+		lineageTag: c3c3c3c3-7777-8888-9999-000011112222
+		summarizeBy: none
+		sourceColumn: occasion_tag
+
+	column establishment_type
+		dataType: string
+		lineageTag: d4d4d4d4-8888-9999-0000-111122223333
+		summarizeBy: none
+		sourceColumn: establishment_type
+
+	column subtype_category
+		dataType: string
+		lineageTag: e5e5e5e5-9999-0000-1111-222233334444
+		summarizeBy: none
+		sourceColumn: subtype_category
+
+	column value_for_money
+		dataType: double
+		lineageTag: f6f6f6f6-0000-1111-2222-333344445555
+		summarizeBy: sum
+		sourceColumn: value_for_money
+
+	column wait_time_friction
+		dataType: double
+		lineageTag: a7a7a7a7-1111-2222-3333-444455556666
+		summarizeBy: sum
+		sourceColumn: wait_time_friction
+
+	partition viability_index-partition = m
+		mode: import
+		source =
+				let
+					Source = PostgreSQL.Database("localhost", "geobi"),
+					db_table = Source{[Schema="public",Item="viability_index"]}[Data]
+				in
+					db_table

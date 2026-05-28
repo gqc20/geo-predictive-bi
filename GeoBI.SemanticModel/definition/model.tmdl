@@ -1,0 +1,11 @@
+model GeoBI_DataModel
+	culture: en-US
+	defaultPowerBIDataSourceVersion: powerBI_V3
+	sourceQueryCulture: es-ES
+
+annotation PBI_ProTooling = ["DevMode"]
+
+annotation PBI_ResultType = Table
+
+ref table viability_index
+
