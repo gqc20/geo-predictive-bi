@@ -51,4 +51,10 @@ legacy/streamlit/
 
 # Large Data files & Local Pipelines
 data/
+!data/gold_viability_index.csv
 *.csv
+!data/gold_viability_index.csv
+
+# Auto-generated dashboard data (built by CI pipeline)
+dashboard-premium/public/geobi_data.json
+dashboard-premium/public/distritos_viability.json

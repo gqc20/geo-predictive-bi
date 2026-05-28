@@ -28,6 +28,19 @@ jobs:
           cache: 'npm'
           cache-dependency-path: 'dashboard-premium/package-lock.json'
 
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install Python dependencies
+        run: pip install pandas geopandas shapely
+
+      - name: Generate dashboard data files
+        run: |
+          python scripts/calculate_districts.py
+          python scripts/convert_data.py
+
       - name: Install Dependencies
         run: |
           cd dashboard-premium
