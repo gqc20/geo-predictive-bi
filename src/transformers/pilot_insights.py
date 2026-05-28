@@ -1,6 +1,5 @@
 import pandas as pd
 import google.generativeai as genai
-import os
 import logging
 from dotenv import load_dotenv
 
@@ -9,6 +8,8 @@ logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(
 logger = logging.getLogger(__name__)
 
 load_dotenv()
+
+from src.config import GEMINI_API_KEY
 
 def pilot_cognitive_layer(df_path, district_name, sector_keyword, limit=5):
     """
@@ -30,13 +31,13 @@ def pilot_cognitive_layer(df_path, district_name, sector_keyword, limit=5):
             return
         
         # 3. Preparación de Gemini
-        api_key = os.getenv("GEMINI_API_KEY")
+        api_key = GEMINI_API_KEY
         if not api_key or api_key == "tu_api_key_aqui":
             logger.error("No se encontró GEMINI_API_KEY configurada.")
             return
 
         genai.configure(api_key=api_key)
-        model = genai.GenerativeModel('gemini-pro')
+        model = genai.GenerativeModel('gemini-2.0-flash')
 
         logger.info(f"Procesando {len(df_pilot)} locales del distrito {district_name} con Gemini...")
 

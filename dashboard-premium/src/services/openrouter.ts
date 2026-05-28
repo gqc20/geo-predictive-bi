@@ -1,17 +1,16 @@
-// Intentamos obtener la clave del localStorage (método seguro y dinámico para cliente)
-// y si no existe, recurrimos a la variable de entorno de compilación.
+// API key obtenida exclusivamente de sessionStorage (se limpia al cerrar pestaña).
+// NUNCA uses VITE_* para secretos: se incrustan en el bundle JS público.
 const getOpenRouterKey = (): string => {
   if (typeof window !== 'undefined') {
-    const savedKey = localStorage.getItem('openrouter_api_key');
-    if (savedKey) return savedKey;
+    return sessionStorage.getItem('openrouter_api_key') || '';
   }
-  return import.meta.env.VITE_OPENROUTER_KEY || '';
+  return '';
 };
 
 export const analyzeMarket = async (prompt: string) => {
   const apiKey = getOpenRouterKey();
 
-  if (!apiKey || apiKey.includes('TU_CLAVE_DE_OPENROUTER_AQUI')) {
+  if (!apiKey || apiKey.length < 20 || apiKey.includes('TU_') || apiKey.includes('AQUI') || apiKey.includes('HERE')) {
     console.warn('OpenRouter API Key not found. Using mock response.');
     return "Simulación: La IA sugiere que Madrid tiene un gran potencial en este sector, especialmente en zonas con baja densidad competitiva.";
   }

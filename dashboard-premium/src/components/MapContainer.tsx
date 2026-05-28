@@ -8,6 +8,15 @@ import HeatmapLayer from './HeatmapLayer';
 import markerIcon from 'leaflet/dist/images/marker-icon.png';
 import markerShadow from 'leaflet/dist/images/marker-shadow.png';
 
+function escapeHtml(str: string): string {
+  return str
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#039;');
+}
+
 let DefaultIcon = L.icon({
     iconUrl: markerIcon,
     shadowUrl: markerShadow,
@@ -78,7 +87,7 @@ const MapComponent: React.FC<MapProps> = ({ data, showHeatmap, showChoropleth, c
               });
               layer.bindPopup(`
                 <div class="p-2">
-                  <h4 class="font-bold text-slate-900 leading-tight">${feature.properties.name}</h4>
+                  <h4 class="font-bold text-slate-900 leading-tight">${escapeHtml(feature.properties.name)}</h4>
                   <div class="text-xs mt-1 text-slate-700">
                     <p>Viabilidad Media: <strong>${Math.round(feature.properties.avg_viability)}%</strong></p>
                     <p>Muestra Locales: <strong>${feature.properties.count}</strong></p>

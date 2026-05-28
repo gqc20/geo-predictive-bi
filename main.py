@@ -22,7 +22,7 @@ except ImportError:
 console = Console(force_terminal=True, legacy_windows=False) if HAS_RICH else None
 
 def clear_screen():
-    os.system('cls' if os.name == 'nt' else 'clear')
+    print('\033[2J\033[H', end='')
 
 def show_header():
     if HAS_RICH:
@@ -37,7 +37,8 @@ def show_header():
         print("Cognitive Engine & Geospatial Analytics")
         print("="*40 + "\n")
 
-def run_command(command, description, is_long_running=False, extra_env=None):
+def run_command(command_list, description, is_long_running=False, extra_env=None):
+    command_str = ' '.join(str(c) for c in command_list)
     if HAS_RICH:
         console.print(f"\n[bold yellow]>> {description}[/bold yellow]")
     else:
@@ -49,8 +50,7 @@ def run_command(command, description, is_long_running=False, extra_env=None):
 
     try:
         if is_long_running:
-            # For streamlit or long running tasks where we want to keep the process open
-            subprocess.run(command, shell=True, env=env)
+            subprocess.run(command_list, env=env)
         else:
             if HAS_RICH:
                 with Progress(
@@ -58,8 +58,8 @@ def run_command(command, description, is_long_running=False, extra_env=None):
                     TextColumn("[progress.description]{task.description}"),
                     transient=True,
                 ) as progress:
-                    progress.add_task(description=f"Ejecutando: {command}", total=None)
-                    result = subprocess.run(command, shell=True, capture_output=True, text=True, encoding='utf-8', errors='replace', env=env)
+                    progress.add_task(description=f"Ejecutando: {command_str}", total=None)
+                    result = subprocess.run(command_list, capture_output=True, text=True, encoding='utf-8', errors='replace', env=env)
                     
                     if result.returncode == 0:
                         console.print(f"[bold green]✅ Éxito:[/bold green] {description}")
@@ -70,8 +70,8 @@ def run_command(command, description, is_long_running=False, extra_env=None):
                         if result.stderr:
                             console.print(f"[red]{result.stderr}[/red]")
             else:
-                print(f"Ejecutando: {command}...")
-                result = subprocess.run(command, shell=True, env=env)
+                print(f"Ejecutando: {command_str}...")
+                result = subprocess.run(command_list, env=env)
                 if result.returncode == 0:
                     print(f"✅ Éxito: {description}")
                 else:
@@ -115,12 +115,10 @@ def main_menu():
             choice = input("\nSelecciona una opción [0-6]: ")
 
         if choice == "1":
-            run_command("docker-compose up -d", "Levantando PostgreSQL/PostGIS...")
+            run_command(["docker-compose", "up", "-d"], "Levantando PostgreSQL/PostGIS...")
             time.sleep(2)
         elif choice == "2":
-            # Ejecutamos con PYTHONPATH=src usando extra_env de forma nativa
-            cmd = f'{sys.executable} src/pipeline_master.py'
-            run_command(cmd, "Ejecutando Inteligencia de Negocio...", is_long_running=True, extra_env={"PYTHONPATH": "src"})
+            run_command([sys.executable, "src/pipeline_master.py"], "Ejecutando Inteligencia de Negocio...", is_long_running=True, extra_env={"PYTHONPATH": "src"})
             if HAS_RICH:
                 Prompt.ask("\n[bold green]Pipeline Terminado.[/bold green] Presiona Enter para volver al menú...")
             else:
@@ -130,17 +128,15 @@ def main_menu():
                 console.print("\n[bold blue]Lanzando Dashboard en el navegador...[/bold blue]")
             else:
                 print("\n[Lanzando Dashboard en el navegador...]")
-            cmd = 'npm --prefix dashboard-premium run dev'
-            run_command(cmd, "Dashboard Premium Activo", is_long_running=True)
+            run_command(["npm", "--prefix", "dashboard-premium", "run", "dev"], "Dashboard Premium Activo", is_long_running=True)
         elif choice == "4":
-            cmd = f'{sys.executable} -m pytest tests/ -v'
-            run_command(cmd, "Validando lógica espacial y cognitiva...", is_long_running=True)
+            run_command([sys.executable, "-m", "pytest", "tests/", "-v"], "Validando lógica espacial y cognitiva...", is_long_running=True)
             if HAS_RICH:
                 Prompt.ask("\nPresiona Enter para continuar...")
             else:
                 input("\nPresiona Enter para continuar...")
         elif choice == "5":
-            run_command("docker-compose down", "Deteniendo contenedores y liberando recursos...")
+            run_command(["docker-compose", "down"], "Deteniendo contenedores y liberando recursos...")
             time.sleep(2)
         elif choice == "6":
             log_path = os.path.join("logs", "execution.log")
